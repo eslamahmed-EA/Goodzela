@@ -1,0 +1,230 @@
+/* Reset بسيط */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* شاشة كاملة وخلفية متحركة */
+html,body { height: 100%; }
+body {
+  font-family: 'Poppins', "Inter", "Segoe UI", Roboto, system-ui, -apple-system, "Helvetica Neue", Arial;
+  display: grid;
+  place-items: center;
+  background: radial-gradient(1200px 600px at 10% 20%, #0f172a 0%, transparent 20%),
+              radial-gradient(900px 400px at 90% 80%, #0b1220 0%, transparent 18%),
+              linear-gradient(180deg, #071024 0%, #07112b 50%, #09172f 100%);
+  overflow: hidden;
+}
+
+/* تأثير سحاب لامع في الخلفية */
+body::before{
+  content:"";
+  position:fixed; inset: -10% -10% -10% -10%;
+  background: linear-gradient(90deg, rgba(255,255,255,0.03), rgba(255,255,255,0.0), rgba(255,255,255,0.02));
+  transform: rotate(12deg);
+  animation: bgDrift 14s linear infinite;
+  mix-blend-mode: overlay;
+  pointer-events:none;
+  opacity:0.9;
+}
+@keyframes bgDrift { from{transform:translateX(-5%) rotate(12deg)} to{transform:translateX(5%) rotate(12deg)} }
+
+/* الحاوية المركزية */
+.center {
+  width: min(95vw, 1100px);
+  padding: 4vh 2rem;
+  display: grid;
+  place-items: center;
+  gap: 1rem;
+}
+
+/* controls removed (no visible button) */
+
+/* اللوغو */
+.logo {
+  position: relative;
+  font-size: clamp(36px, 9.8vw, 130px);
+  letter-spacing: -0.02em;
+  line-height: 1;
+  display: inline-block;
+  padding: 0.2em 0.45em;
+  user-select: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transform-origin: center;
+  filter: drop-shadow(0 18px 40px rgba(5,8,20,0.65));
+  font-weight: 800;
+  /* keep the whole name on a single line */
+  white-space: nowrap;
+  word-break: keep-all;
+  hyphens: none;
+}
+
+/* تدرج النص مع شفافية ولون متغير */
+.logo .char {
+  display: inline-block;
+  color: transparent;
+  /* animated gradient fill */
+  background: linear-gradient(90deg, #7b61ff 0%, #6fc3ff 30%, #00ffa3 60%, #ffd86b 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow:
+    0 1px 0 rgba(255,255,255,0.02),
+    0 10px 40px rgba(2,12,35,0.7),
+    0 0 40px rgba(123,97,255,0.16),
+    0 0 12px rgba(0,212,255,0.06);
+  -webkit-text-stroke: 0.6px rgba(10,12,20,0.45);
+  transform-origin: center;
+  opacity: 0;
+  animation: popIn 720ms cubic-bezier(.2,.9,.3,1) forwards;
+  animation-delay: calc(var(--i) * 48ms);
+  position: relative;
+  transition: transform .36s cubic-bezier(.2,.9,.3,1), filter .25s, text-shadow .25s;
+}
+
+/* animated gradient movement */
+.logo .char {
+  background-size: 240% 100%;
+  animation-name: popIn, gradientShift;
+  animation-duration: 720ms, 6s;
+  animation-timing-function: cubic-bezier(.2,.9,.3,1), ease-in-out;
+  animation-fill-mode: forwards, infinite;
+  animation-delay: calc(var(--i) * 48ms), 0s;
+}
+
+@keyframes gradientShift {
+  0%{ background-position: 0% 50%; }
+  50%{ background-position: 100% 50%; }
+  100%{ background-position: 0% 50%; }
+}
+
+/* مسافة مرئية بين الكلمات */
+.logo .char.space {
+  width: 0.6ch; /* make the gap slightly wider and proportional */
+  opacity: 1; /* visible but not animated */
+  animation: none !important;
+  transform: none !important;
+  text-shadow: none !important;
+}
+
+/* Ensure individual characters don't introduce line breaks */
+.logo .char { white-space: pre; }
+
+/* Hover interaction - lift letters and intensify glow */
+.logo:hover .char { transform: translateY(-6px) scale(1.03); filter: drop-shadow(0 28px 50px rgba(80,60,200,0.14)); }
+
+/* Outer glow layer */
+.logo::before{
+  content: '';
+  position: absolute;
+  inset: -12px;
+  border-radius: 10px;
+  filter: blur(28px);
+  background: radial-gradient(closest-side, rgba(123,97,255,0.08), transparent 40%);
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.95;
+}
+
+/* Subtitle under the logo */
+.subtitle {
+  margin-top: 0.6rem;
+  font-family: 'Poppins', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+  font-weight: 600;
+  font-size: clamp(11px, 1.6vw, 16px);
+  color: transparent;
+  background: linear-gradient(90deg, rgba(255,255,255,0.95), rgba(180,200,255,0.85));
+  -webkit-background-clip: text;
+  background-clip: text;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity .6s ease, transform .6s ease;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.center:has(.logo) .subtitle { opacity: 1; transform: translateY(0); }
+
+/* decorative bar before subtitle */
+.subtitle::before{
+  content: '';
+  display: inline-block;
+  width: 34px;
+  height: 2px;
+  margin-inline-end: 10px;
+  vertical-align: middle;
+  background: linear-gradient(90deg, rgba(123,97,255,0.9), rgba(0,212,255,0.85));
+  border-radius: 2px;
+  opacity: 0.95;
+}
+
+/* matching decorative bar on the right */
+.subtitle::after{
+  content: '';
+  display: inline-block;
+  width: 34px;
+  height: 2px;
+  margin-inline-start: 10px;
+  vertical-align: middle;
+  background: linear-gradient(90deg, rgba(123,97,255,0.9), rgba(0,212,255,0.85));
+  border-radius: 2px;
+  opacity: 0.95;
+}
+
+/* حركات خفيفة: ارتفاع/هبوط وارتداد بسيط */
+@keyframes popIn {
+  0%   { transform: translateY(16px) rotate(-2deg) scale(0.96); opacity: 0; filter: blur(6px); }
+  60%  { transform: translateY(-5px) rotate(1deg) scale(1.02); opacity: 1; filter: blur(0); }
+  100% { transform: translateY(0) rotate(0deg) scale(1); opacity: 1; filter: blur(0); }
+}
+
+/* تأثير بريق يمر عبر النص */
+.logo::after{
+  content: "";
+  position: absolute;
+  left: -40%;
+  top: 0;
+  width: 200%;
+  height: 100%;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent 35%, rgba(255,255,255,0.35) 47%, rgba(255,255,255,0.06) 53%, transparent 65%);
+  transform: skewX(-18deg);
+  mix-blend-mode: overlay;
+  animation: shine 3.6s ease-in-out infinite;
+  opacity: 0.9;
+}
+@keyframes shine {
+  0%   { transform: translateX(-110%) skewX(-18deg); opacity:0; }
+  15%  { opacity:0.25; }
+  45%  { transform: translateX(10%) skewX(-18deg); opacity:1; }
+  75%  { opacity:0.2; }
+  100% { transform: translateX(110%) skewX(-18deg); opacity:0; }
+}
+
+/* تأثير طفو بطيء للمجموعة كلها */
+.logo {
+  animation: floatSlow 6.5s ease-in-out infinite;
+}
+@keyframes floatSlow {
+  0%  { transform: translateY(0) }
+  50% { transform: translateY(-6px) }
+  100% { transform: translateY(0) }
+}
+
+/* دعم لتفضيل تقليل الحركة */
+@media (prefers-reduced-motion: reduce) {
+  .logo, .logo .char, .logo::after, body::before { animation: none !important; transition: none !important; }
+  .logo .char { opacity: 1; transform: none; filter: none; }
+}
+
+/* لمسات للعرض في خلفيات غامقة */
+.center::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  backdrop-filter: blur(6px) saturate(120%);
+  mix-blend-mode: soft-light;
+  pointer-events: none;
+}
+
+/* controls removed (no visible button) */

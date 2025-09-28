@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Planet icon">
+	<title>Planet</title>
+	<defs>
+		<radialGradient id="g1" cx="35%" cy="30%" r="80%">
+			<stop offset="0%" stop-color="#7b61ff" />
+			<stop offset="55%" stop-color="#00d4ff" />
+			<stop offset="100%" stop-color="#00ffa3" />
+		</radialGradient>
+		<linearGradient id="g2" x1="0" x2="1">
+			<stop offset="0%" stop-color="#ffd86b" stop-opacity="0.9"/>
+			<stop offset="100%" stop-color="#ff8ab6" stop-opacity="0.9"/>
+		</linearGradient>
+	</defs>
+
+	<!-- planet body -->
+	<circle cx="32" cy="30" r="18" fill="url(#g1)" />
+
+	<!-- subtle highlight -->
+	<ellipse cx="24" cy="22" rx="8" ry="4" fill="rgba(255,255,255,0.18)" />
+
+	<!-- ring -->
+	<g transform="rotate(-18 32 32)">
+		<ellipse cx="32" cy="36" rx="26" ry="6" fill="none" stroke="url(#g2)" stroke-width="3" stroke-linecap="round" opacity="0.95" />
+	</g>
+
+	<!-- small stars -->
+	<g fill="#eaf6ff" opacity="0.9">
+		<circle cx="8" cy="10" r="1.2" />
+		<circle cx="54" cy="12" r="1" />
+		<circle cx="50" cy="46" r="0.9" />
+	</g>
+</svg>

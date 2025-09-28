@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="ar">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Goodzela</title>
+  <meta name="theme-color" content="#071024">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" href="assets/planet.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/planet.svg">
+  <link rel="mask-icon" href="assets/planet.svg" color="#7b61ff">
+</head>
+<body>
+  <main class="center">
+    <h1 id="logo" class="logo" aria-label="Eslam Ahmed">Eslam Ahmed</h1>
+    <p id="subtitle" class="subtitle" aria-hidden="false">Website Coming Soon</p>
+  </main>
+
+  <script>
+    // نصوص قابلة للتبديل (بدون زر) — تبديل تلقائي كل 6 ثواني
+    (function () {
+      const names = ["Eslam Ahmed", "Goodzela"];
+      let idx = 0;
+      const el = document.getElementById('logo');
+
+      function renderText(text) {
+        el.textContent = '';
+        for (let i = 0; i < text.length; i++) {
+          const ch = document.createElement('span');
+          // keep spaces visible and stable
+          if (text[i] === ' ') {
+            ch.className = 'char space';
+            ch.textContent = '\u00A0'; // non-breaking space so it renders width
+          } else {
+            ch.className = 'char';
+            ch.textContent = text[i];
+            ch.style.setProperty('--i', i);
+          }
+          // still append so spacing and alignment preserved
+          el.appendChild(ch);
+        }
+        void el.offsetWidth; // force reflow to restart animations
+      }
+
+      function toggle(nextIndex) {
+        idx = (typeof nextIndex === 'number') ? nextIndex : (idx + 1) % names.length;
+        renderText(names[idx]);
+      }
+
+      // تبديل تلقائي كل 6 ثواني
+      setInterval(() => toggle(), 6000);
+
+      // العرض الأولي
+      renderText(names[idx]);
+    })();
+  </script>
+</body>
+</html>
